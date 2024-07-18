@@ -3,12 +3,15 @@ import RestoCard from "./RestoCard";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
+import useInternetStatus from "../Utils/useInternetStatus";
 
 const Body = () => {
 
     const [restaurantsList,setRestaurantsList] = useState([]);
     const [filteredRestList, setFilteredRestList] = useState([]);
     const [searchText, setSearchText] = useState([]);
+    const isOffline = useInternetStatus();
+
 
     useEffect(()=>{
        fetchData();
@@ -32,6 +35,8 @@ const Body = () => {
         const newRestList = restaurantsList.filter(x=> x.info.avgRating > 4);
         setRestaurantsList(newRestList);
     }
+    if(isOffline)
+        return <div><h1>Your internet connectivity is Down!</h1></div>;
 
     return (restaurantsList.length === 0)? <Shimmer/> : (
         <div className="body">

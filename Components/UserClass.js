@@ -31,7 +31,6 @@ class UserClass extends Component{
         console.log("from UnMount");
     }
     render(){
-        debugger;
         const {name, location} = this.state.userInfo;
         console.log("from render");
         return(

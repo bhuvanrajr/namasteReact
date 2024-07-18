@@ -1,21 +1,17 @@
 import {MockRestDetails} from "../Utils/MockRestDetails";
 import MenuCard from "./MenuCard";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MenuDetailsAPI } from "../Utils/Constants";
+import { useState } from "react";
+import useRestInfo from "../Utils/useRestInfo"
+
 
 const RestaurantDetails = ()=>{
     const {restId} = useParams();
     const [resultData, setResultData] = useState();
     const [data, setData] = useState(MockRestDetails);
 
-    useEffect(()=>{getData()},[]);
-
-    console.log(MenuDetailsAPI);
-
-    const getData = async ()=>{
-        const d = await fetch(MenuDetailsAPI + restId);
-        const result = await d.json();
+    var result = useRestInfo(restId);
+    if(result != null){
         setResultData(result);
         setData(result);
     }
