@@ -1,24 +1,24 @@
-import { CloudinaryImageUrl } from "../Utils/Constants";
+import { useState } from "react";
+import MenuCardDetails from "./MenuCardDetails";
 
 
 const MenuCard = (resultData)=> {
-    const data = resultData?.menu?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[4]?.card?.card?.itemCards;
-    return (
-        data?.map((t)=> 
-        <div key={t.card.info.id} className="menu">
-            <div >
-                <h3 className="menuName" > {t.card.info.name} </h3>
-                <h4 className="price">${t.card.info.price/100}</h4>
-                <h4 className="ratings">★ {t.card.info.ratings.aggregatedRating.rating} ({t.card.info.ratings.aggregatedRating.ratingCountV2})</h4>
-                <h5 className="menuDesc">{t.card.info.description}</h5>
-            </div>
-            <div>
-                <img className="menuImg" src={CloudinaryImageUrl + t.card.info.imageId} />
-            </div>
-            
-        </div>
-    )
-    );
+    const [showIndex, setShowIndex] = useState(-1);
+    const data = resultData?.menu?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter((c) => c.card.card["@type"]=== "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory");
+    if(data!= null)
+    {
+        //console.log(data?.map((d)=> d.card?.card?.title));
+        return(
+            <div className="my-20">
+                {
+                    data.map((d, index)=>{
+                        return <MenuCardDetails key = {d?.card?.card?.title} menu = {d} setShowItems = {(index, showIndex)=> {(showIndex == index)? setShowIndex(-1) : setShowIndex(index)}} showItems = {index==showIndex? true : false} showIndex = {showIndex} index = {index}/>
+                    })
+                }
+        </div>)
+    }
+    else
+    return <></>
 }
 
 export default MenuCard;

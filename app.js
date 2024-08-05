@@ -7,9 +7,10 @@ import ContactUs from "./Components/ContactUs.js";
 //import About from "./Components/About";
 import RestaurantDetails from "./Components/RestaurantDetails";
 import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, createContext } from "react";
 
 const About = lazy(()=> import("./Components/About"));
+
 const Layout = () =>
     {
         return(<div>

@@ -1,15 +1,15 @@
 import { MenuDetailsAPI } from "./Constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-const useRestInfo = (restId) =>{
-    var restInfo = null;
+const useRestInfo = async (restId) =>{
+    const [restInfo, setRestInfo] = useState();
+
     useEffect(()=>{getData()},[]);
 
-    console.log(MenuDetailsAPI);
-
     const getData = async ()=>{
-        const d = await fetch(MenuDetailsAPI + restId);
-        restInfo = await d.json();
+            const d = await fetch(MenuDetailsAPI + restId);
+            var result = await d.json();
+            setRestInfo(result);
     }
     return restInfo;
 }
