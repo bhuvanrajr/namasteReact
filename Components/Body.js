@@ -1,17 +1,19 @@
 
 import RestoCard from "./RestoCard";
 import RecommendedRestoCard from "./RecommendedRestoCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useInternetStatus from "../Utils/useInternetStatus";
-
+import { UserContext } from "../Utils/UserContext";
 const Body = () => {
 
     const [restaurantsList,setRestaurantsList] = useState([]);
     const [filteredRestList, setFilteredRestList] = useState([]);
     const [searchText, setSearchText] = useState([]);
     const isOffline = useInternetStatus();
+    const {userName} = useContext(UserContext);
+    const {setUserInfo} = useContext(UserContext);
 
     const RecommendedResto = RecommendedRestoCard(RestoCard);
 
@@ -54,15 +56,20 @@ const Body = () => {
             Find best Restaurants
             </span>
             </button>
+            <input type="text" className="m-2 border border-black rounded-md" onChange={(e)=>{setUserInfo(e.target.value)}} value={userName} />
             </div>
-            <div className="flex flex-wrap">
+             <div className="flex flex-wrap">
                 {
                     filteredRestList.map(restaurant=> 
                     <Link key = {restaurant.info.id} to={"/restInfo/"+restaurant.info.id}>
                         {
-                            (restaurant.info.avgRating > 4.4) ? 
-                            <RecommendedResto restoData = {restaurant} /> :
-                            <RestoCard restoData = {restaurant} /> 
+                            <UserContext.Provider value={userName}>
+                            {
+                                (restaurant.info.avgRating > 4.4) ? 
+                                <RecommendedResto restoData = {restaurant} /> :
+                                <RestoCard restoData = {restaurant} /> 
+                            }
+                            </UserContext.Provider>
                         } 
                     </Link>)
                 }  

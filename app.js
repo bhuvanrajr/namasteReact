@@ -7,17 +7,23 @@ import ContactUs from "./Components/ContactUs.js";
 //import About from "./Components/About";
 import RestaurantDetails from "./Components/RestaurantDetails";
 import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
-import { lazy, Suspense, createContext } from "react";
+import { lazy, Suspense, useContext, useState } from "react";
+import { UserContext } from "./Utils/UserContext.js";
 
 const About = lazy(()=> import("./Components/About"));
-
 const Layout = () =>
     {
-        return(<div>
-            <Header/>
-            <Outlet />
-            <Footer/>
-        </div>);
+        const userName = useContext(UserContext);
+        const [userInfo, setUserInfo] = useState(userName);
+        return(
+            <UserContext.Provider value = {{userName: userInfo, setUserInfo}} >
+                <div>
+                    <Header/>
+                    <Outlet />
+                    <Footer/>
+                </div>
+            </UserContext.Provider>
+            );
     }
 
 const routConfig = createBrowserRouter(

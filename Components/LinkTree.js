@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../Utils/UserContext";
 
 const LinkTree = () =>{
     const [loginName, setLoginName] = useState("Login");
     const [isOnline, setIsOnline] = useState(true);
-
+    const userName = useContext(UserContext);
+    console.log(userName);
     const LoginNameHandler =()=>{
         if(loginName ==="Login"){
             setLoginName("Logout");
@@ -46,7 +48,9 @@ const LinkTree = () =>{
                         {isOnline? 
                         <h4 className = "p-2 text-green-600">Online</h4> : 
                         <h4 className="p-2 text-red-600">Offline</h4>}
-                        
+                    </li>
+                    <li className="p-2 hover: hover:text-orange-500 ">
+                            {userName}
                     </li>
                 </ul>
             </div>
