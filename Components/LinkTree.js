@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Utils/UserContext";
+import { useSelector } from "react-redux";
+
 
 const LinkTree = () =>{
     const [loginName, setLoginName] = useState("Login");
     const [isOnline, setIsOnline] = useState(true);
     const userName = useContext(UserContext);
-    console.log(userName);
+    const cartItems = useSelector((store)=> store.cart.items);
+    console.log(cartItems.length + "from LinkTree");
     const LoginNameHandler =()=>{
         if(loginName ==="Login"){
             setLoginName("Logout");
@@ -38,7 +41,9 @@ const LinkTree = () =>{
                     <li className="p-2 hover:font-bold hover:text-orange-500 hover:underline">
                         <Link to="/contact">Contact Us</Link>
                     </li>
-                    <li className="p-2 hover:font-bold hover:text-orange-500 hover:underline">Cart</li>
+                    <li className="p-2 hover:font-bold hover:text-orange-500 hover:underline">
+                        <Link to="/cart">Cart({cartItems.length})</Link>
+                    </li>
                     <li className="p-2 hover:font-bold hover:text-orange-500 hover:underline">
                         <button onClick={()=>{LoginNameHandler()}}>
                             {loginName}

@@ -4,11 +4,13 @@ import Body from "./Components/Body";
 import Footer from "./Components/Footer";
 import Error from "./Components/Error";
 import ContactUs from "./Components/ContactUs.js";
-//import About from "./Components/About";
 import RestaurantDetails from "./Components/RestaurantDetails";
 import {createBrowserRouter, RouterProvider, Outlet} from "react-router-dom";
 import { lazy, Suspense, useContext, useState } from "react";
 import { UserContext } from "./Utils/UserContext.js";
+import AppStore from "./Utils/AppStore.js";
+import { Provider } from "react-redux";
+import Cart from "./Components/Cart.js";
 
 const About = lazy(()=> import("./Components/About"));
 const Layout = () =>
@@ -16,13 +18,15 @@ const Layout = () =>
         const userName = useContext(UserContext);
         const [userInfo, setUserInfo] = useState(userName);
         return(
-            <UserContext.Provider value = {{userName: userInfo, setUserInfo}} >
-                <div>
-                    <Header/>
-                    <Outlet />
-                    <Footer/>
-                </div>
-            </UserContext.Provider>
+            <Provider store={AppStore}>
+                <UserContext.Provider value = {{userName: userInfo, setUserInfo}}>
+                    <div>
+                        <Header/>
+                        <Outlet />
+                        <Footer/>
+                    </div>
+                </UserContext.Provider>
+            </Provider>
             );
     }
 
@@ -48,6 +52,10 @@ const routConfig = createBrowserRouter(
             {
                 path:"/restInfo/:restId",
                 element:<RestaurantDetails/>
+            },
+            {
+                path:"/cart",
+                element : <Cart />
             }
         ]
     },

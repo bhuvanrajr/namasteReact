@@ -1,17 +1,11 @@
-import { CloudinaryImageUrl } from "../Utils/Constants";
-import { addItem } from "../Utils/CartSlice";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-const MenuItem = (item)=>{
-    var data = item?.item?.itemCards;
-    const dispatch = useDispatch();
+const Cart = ()=>{
+    const items = useSelector((store)=> store.cart.items);
+    console.log(items);
     return (
-    <div>
-        {
-            data?.map((c)=>{
-                var info = c?.card.info;
-                return(
-                    <div key={info.name} className="mx-20 my-10 w-2/3 rounded-b-lg flex">
+        items.map((info)=>{
+            <div key={info.name} className="mx-20 my-10 w-2/3 rounded-b-lg flex">
                         <div className="w-2/3">
                             <div className=" text-xs">
                                 {info.itemAttribute?.vegClassifier == "NONVEG" ? "🔴" : "🟢"}
@@ -34,11 +28,7 @@ const MenuItem = (item)=>{
                             <button onClick={() => dispatch(addItem(info))}>Add</button>
                         </div>
                     </div>
-                )
-            })
-        }
-        </div>
+        })
     )
 }
-    
-export default MenuItem;
+export default Cart;
